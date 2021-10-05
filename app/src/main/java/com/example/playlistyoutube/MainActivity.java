@@ -2,7 +2,10 @@ package com.example.playlistyoutube;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,7 +25,7 @@ import org.json.JSONStringer;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    String Api_key="AIzaSyB7hA1R7YLrHQERL1J2IAtCbWijLvovrQA";
+    public  static String Api_key="AIzaSyB7hA1R7YLrHQERL1J2IAtCbWijLvovrQA";
     String ID_playlist="PLgIqj6EWVN2-Pdn_2VfLCcK5lW4b5NpTq";
     //&maxResults=50
     String get_Json_url="https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PLgIqj6EWVN2-Pdn_2VfLCcK5lW4b5NpTq&key=AIzaSyB7hA1R7YLrHQERL1J2IAtCbWijLvovrQA&maxResults=50";
@@ -39,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
         lvMovies.setAdapter(adapter);
 
         getJson(get_Json_url);
+        lvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(MainActivity.this,PlayMovie.class);
+                intent.putExtra("idmovie",arrayListMovies.get(i).getIdvieo());
+                startActivity(intent);
+            }
+        });
     }
     private void getJson(String Url){
         RequestQueue requestQueue= Volley.newRequestQueue(this);
